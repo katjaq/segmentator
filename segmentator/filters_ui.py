@@ -22,17 +22,17 @@ def main():
         )
     parser.add_argument(
         "--smoothing", metavar=str(cfg.smoothing), required=False,
-        default='EED',
-        help="Variants are EED, cCED, EXP, EXP2. Use cCED to only enhance \
-        surfaces like gray matter-cerebrospinal fluid. Use EXP and EXP2 with \
-        extra caution, they are highly experimental."
+        default=cfg.smoothing,
+        help="Variants are CURED and STEDI. Use CURED for removing tubular,\
+        honeycomb-like structures as well as smoothing isotropic areas.\
+        STEDI is the more conservative version that retains more edges."
         )
-    parser.add_argument(
-        "--edge_thr", metavar=str(cfg.edge_thr), required=False,
-        type=float, default=cfg.edge_thr,
-        help="Lambda, edge threshold, lower values preserves more edges. Not \
-        used in EXP and EXP2."
-        )
+    # parser.add_argument(
+    #     "--edge_thr", metavar=str(cfg.edge_thr), required=False,
+    #     type=float, default=cfg.edge_thr,
+    #     help="Lambda, edge threshold, lower values preserves more edges. Not\
+    #     used in CURED and STEDI."
+    #     )
     parser.add_argument(
         "--noise_scale", metavar=str(cfg.noise_scale), required=False,
         type=float, default=cfg.noise_scale,
@@ -52,8 +52,8 @@ def main():
     parser.add_argument(
         "--gamma", metavar=str(cfg.gamma), required=False,
         type=float, default=cfg.gamma,
-        help="Effects strength of the updates in every iteration. Recommended \
-        range is 0.5 to 2."
+        help="Strength of the updates in every iteration. Recommended range is\
+        0.5 to 2."
         )
     parser.add_argument(
         "--nr_iterations", metavar=str(cfg.nr_iterations), required=False,
@@ -67,25 +67,29 @@ def main():
         help="Save every Nth iterations. Useful to track the effect of \
         smoothing as it evolves."
         )
+    parser.add_argument(
+        "--downsampling", metavar=str(cfg.downsampling), required=False,
+        type=int, default=cfg.downsampling,
+        help="(!WIP!) Downsampling factor, use integers > 1. E.g. factor of 2 \
+        reduces the amount of voxels 8 times."
+        )
 
     # set cfg file variables to be accessed from other scripts
     args = parser.parse_args()
     cfg.filename = args.filename
     cfg.smoothing = args.smoothing
-    cfg.edge_thr = args.edge_thr  # lambda
+    # cfg.edge_thr = args.edge_thr  # lambda
     cfg.noise_scale = args.noise_scale  # sigma
     cfg.feature_scale = args.feature_scale  # rho
     cfg.gamma = args.gamma
     cfg.nr_iterations = args.nr_iterations
     cfg.save_every = args.save_every
+    cfg.downsampling = args.downsampling
 
     welcome_str = 'Segmentator {}'.format(__version__)
     welcome_decor = '=' * len(welcome_str)
     print('{}\n{}\n{}'.format(welcome_decor, welcome_str, welcome_decor))
     print('Filters initiated...')
-    print('  --------------------------------------')
-    print('  !!!WARNING !!! Experimental feature!!!')
-    print('  --------------------------------------')
 
     import segmentator.filter
 
