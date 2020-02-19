@@ -1,22 +1,6 @@
 #!/usr/bin/env python
 """Functions covering the user interaction with the GUI."""
 
-# Part of the Segmentator library
-# Copyright (C) 2018  Omer Faruk Gulban and Marian Schneider
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from __future__ import division, print_function
 import os
 import numpy as np
@@ -669,11 +653,11 @@ class sector_mask:
         else:
             return False
 
-    def draw(self, ax, cmap='Reds', alpha=0.2, vmin=0.1,
+    def draw(self, ax, cmap='Reds', alpha=0.2, vmin=0.1, zorder=0,
              interpolation='nearest', origin='lower', extent=[0, 100, 0, 100]):
         """Draw sector mask."""
         BinMask = self.binaryMask()
         FigObj = ax.imshow(BinMask, cmap=cmap, alpha=alpha, vmin=vmin,
                            interpolation=interpolation, origin=origin,
-                           extent=extent)
+                           extent=extent, zorder=zorder)
         return (FigObj, BinMask)

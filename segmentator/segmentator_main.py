@@ -1,23 +1,6 @@
 #!/usr/bin/env python
 """Processing input and plotting."""
 
-# Part of the Segmentator library
-# Copyright (C) 2018  Omer Faruk Gulban and Marian Schneider
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
 from __future__ import division, print_function
 import numpy as np
 import segmentator.config as cfg
@@ -84,12 +67,12 @@ ax2 = fig.add_subplot(122)
 sliceNr = int(0.5*dims[2])
 imaSlcH = ax2.imshow(orig[:, :, sliceNr], cmap=plt.cm.gray, vmin=ima.min(),
                      vmax=ima.max(), interpolation='none',
-                     extent=[0, dims[1], dims[0], 0])
+                     extent=[0, dims[1], dims[0], 0], zorder=0)
 
 imaSlcMsk = np.ones(dims[0:2])
 imaSlcMskH = ax2.imshow(imaSlcMsk, cmap=palette, vmin=0.1,
                         interpolation='none', alpha=0.5,
-                        extent=[0, dims[1], dims[0], 0])
+                        extent=[0, dims[1], dims[0], 0], zorder=1)
 
 # Adjust subplots on figure
 bottom = 0.30
@@ -106,7 +89,7 @@ sectorObj = sector_mask((nr_bins, nr_bins), cfg.init_centre, cfg.init_radius,
 # Draw sector mask for the first time
 volHistMaskH, volHistMask = sectorObj.draw(ax, cmap=palette, alpha=0.2,
                                            vmin=0.1, interpolation='nearest',
-                                           origin='lower',
+                                           origin='lower', zorder=1,
                                            extent=[0, nr_bins, 0, nr_bins])
 
 # Initiate a flexible figure object, pass to it useful properties
